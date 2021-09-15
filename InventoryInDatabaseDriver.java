@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class InventoryInDatabaseDriver {
     public InventoryInDatabaseDriver() {}
 
-    public void addInventoryIn(InventoryIn inventoryIn) {
-        String sql = "INSERT INTO inventory_in(id, barcode, amount, name) VALUES (nextval(inventory_in_sequence), "
+    public static void addInventoryIn(InventoryIn inventoryIn) {
+        String sql = "INSERT INTO inventory_in(id, barcode, amount, name) VALUES ((select nextval('inventory_in_sequence')), "
             + inventoryIn.getBarcode() + ", " + inventoryIn.getAmount() + ", '" + inventoryIn.getName() + "')";
         try {
             Connection connection = DriverManager.getConnection(Database.getUrl());
@@ -21,7 +21,7 @@ public class InventoryInDatabaseDriver {
         }
     }
 
-    public InventoryIn getInventoryIn(int idIn) {
+    public static InventoryIn getInventoryIn(int idIn) {
         String sql = "SELECT * FROM inventory_in WHERE id = " + idIn + ";";
         try {
             Connection connection = DriverManager.getConnection(Database.getUrl());
@@ -45,7 +45,7 @@ public class InventoryInDatabaseDriver {
         }
     }
 
-    public InventoryIn getInventoryIn(int barcodeIn, boolean check) {
+    public static InventoryIn getInventoryIn(int barcodeIn, boolean check) {
         String sql = "SELECT * FROM inventory_in WHERE barcode = " + barcodeIn + ";";
         try {
             Connection connection = DriverManager.getConnection(Database.getUrl());
@@ -69,7 +69,7 @@ public class InventoryInDatabaseDriver {
         }
     }
 
-    public InventoryIn getInventoryIn(String nameIn) {
+    public static InventoryIn getInventoryIn(String nameIn) {
         String sql = "SELECT * FROM inventory_in WHERE name = '" + nameIn + "';";
         try {
             Connection connection = DriverManager.getConnection(Database.getUrl());
@@ -93,7 +93,7 @@ public class InventoryInDatabaseDriver {
         }
     }
 
-    public boolean updateBarcode(int idIn, int barcodeIn) {
+    public static boolean updateBarcode(int idIn, int barcodeIn) {
         String sql = "UPDATE inventory_in SET barcode = " + barcodeIn + " WHERE id = " + idIn + ";";
         try {
             Connection connection = DriverManager.getConnection(Database.getUrl());
@@ -109,7 +109,7 @@ public class InventoryInDatabaseDriver {
         }
     }
 
-    public boolean updateAmount (int idIn, int amountIn) {
+    public static boolean updateAmount (int idIn, int amountIn) {
         String sql = "UPDATE inventory_in SET amount = " + amountIn + " WHERE id = " + idIn + ";";
         try {
             Connection connection = DriverManager.getConnection(Database.getUrl());
@@ -125,7 +125,7 @@ public class InventoryInDatabaseDriver {
         }
     }
 
-    public boolean updateName (int idIn, String nameIn) {
+    public static boolean updateName (int idIn, String nameIn) {
         String sql = "UPDATE inventory_in SET name = '" + nameIn + "' WHERE id = " + idIn + ";";
         try {
             Connection connection = DriverManager.getConnection(Database.getUrl());
@@ -138,6 +138,17 @@ public class InventoryInDatabaseDriver {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static void removeInventoryIn(int id) {
+        String sql = "DELETE FROM inventory_in WHERE id = " + id + ";";
+        try {
+            Connection connection = DriverManager.getConnection(Database.getUrl());
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

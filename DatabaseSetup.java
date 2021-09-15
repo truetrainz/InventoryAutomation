@@ -22,7 +22,7 @@ public class DatabaseSetup {
     }
 
     public void createInventoryTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS inventory(id bigint PRIMARY KEY, amount int, description TEXT, name varchar(180))";
+        String sql = "CREATE TABLE IF NOT EXISTS inventory(id bigint PRIMARY KEY, amount int, description TEXT, name varchar(180), barcode int)";
         try {
             Connection connection = DriverManager.getConnection(Database.getUrl());
             Statement statement = connection.createStatement();

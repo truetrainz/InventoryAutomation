@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
@@ -16,25 +17,18 @@ public class Main {
         dbset.createInventoryTable();
         dbset.createInTableSequence();
         dbset.createInventoryTableSequence();
-        ProcessingQueue UDPQ = new ProcessingQueue();
-        /**
-        Connection conn = Database.getConnection();
-        if (conn != null) {
-            System.out.println("The connection was established");
-        } else {
-            System.out.println("The connection failed to establish");
+        TCPQueue queue = new TCPQueue();
+        Inventory testInventory = new Inventory("this is a test", 100, "test", 12345);
+        InventoryDatabaseDriver.addInventory(testInventory);
+        System.out.println("Run?");
+        Scanner scan = new Scanner(System.in);
+        if (scan.hasNextLine()) {
+            if (scan.nextLine().trim().equalsIgnoreCase("R")) {
+                Tester tester = new Tester(queue);
+                ProcessingRunnable pRun = new ProcessingRunnable(queue);
+                pRun.run();
+            }
         }
-                ProcessingQueue queue = new ProcessingQueue();
-                ProcessingRunnable processing = new ProcessingRunnable(queue);
-                CameraRunnable camera = new CameraRunnable(queue);
-                Webcam webcam = new Webcam();
-                Thread webcamThread = new Thread(webcam);
-                Thread processingThread = new Thread(processing);
-                Thread cameraThread = new Thread(camera);
-                //webcamThread.start();
-                processingThread.start();
-                cameraThread.start();
-        }*/
     }
 
     public static void printStatement() {

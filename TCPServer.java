@@ -5,19 +5,21 @@ import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.DataOutputStream;
+import java.time.LocalTime;
 
-public class TCPServer {
+public class TCPServer implements Runnable {
 
-    ProcessingQueue TCPQ;
+    private TCPQueue queue;
 
-    TCPServer(ProcessingQueue TCPQ) {
-        this.TCPQ = TCPQ;
+    TCPServer(TCPQueue queue) {
+        this.queue = queue;
     }
 
     public void run() {
+        LocalTime time = LocalTime.now();
         try {
             ServerSocket ss = new ServerSocket(81);
-            while (true) {
+            while (queue.size() > 0 || (time.getHour() >= 8) && (time.getHour() < 21)) {
                 Socket s = ss.accept();
                 BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
                 DataOutputStream out = new DataOutputStream(s.getOutputStream());
@@ -25,8 +27,7 @@ public class TCPServer {
                     String working = in.readLine();
                     System.out.println("received: " + working);
                     if (!working.isEmpty()) {
-                        //TCPQ.addItem();
-                        // need to finish this here
+                        queue.add(working);
                     }
                     out.writeBytes("200\n");
                     out.flush();

@@ -14,6 +14,8 @@ public class InventoryIn {
         this.name = name;
     }
 
+    public InventoryIn() {}
+
     public InventoryIn(int barcode, int amount, String name) {
         this.barcode = barcode;
         this.amount = amount;

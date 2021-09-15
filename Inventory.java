@@ -7,20 +7,23 @@ public class Inventory {
     private int amount;
     private String name;
     private boolean idSet;
+    private int barcode;
 
-    public Inventory(int id, String description, int amount, String name) {
+    public Inventory(int id, String description, int amount, String name, int barcode) {
         this.id = id;
         this.description = description;
         this.amount = amount;
         this.name = name;
         this.idSet = false;
+        this.barcode = barcode;
     }
 
-    public Inventory(String description, int amount, String name) {
+    public Inventory(String description, int amount, String name, int barcode) {
         this.description = description;
         this.amount = amount;
         this.idSet = false;
         this.name = name;
+        this.barcode = barcode;
     }
 
     public int getId() {
@@ -61,5 +64,13 @@ public class Inventory {
 
     public void setIdSet(boolean idSet) {
         this.idSet = idSet;
+    }
+
+    public int getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(int barcode) {
+        this.barcode = barcode;
     }
 }
